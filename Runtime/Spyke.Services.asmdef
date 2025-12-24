@@ -1,0 +1,16 @@
+{
+    "name": "Spyke.Services",
+    "rootNamespace": "Spyke.Services",
+    "references": [
+        "Spyke.Core"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,25 @@
+{
+  "name": "com.spykegames.services",
+  "displayName": "Spyke Services",
+  "version": "0.0.1-preview",
+  "unity": "6000.0",
+  "description": "Backend services package: Network, Authentication, Analytics, Time sync, and Push notifications.",
+  "author": {
+    "name": "Spyke Games",
+    "url": "https://github.com/spykegames"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spykegames/upm-spyke-services.git"
+  },
+  "keywords": [
+    "spyke",
+    "services",
+    "network",
+    "auth",
+    "analytics"
+  ],
+  "dependencies": {
+    "com.spykegames.core": "0.0.1-preview"
+  }
+}
