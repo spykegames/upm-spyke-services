@@ -29,7 +29,7 @@ upm-spyke-services/
 |--------|---------|--------|
 | `Runtime/Network/` | REST client (UnityWebRequest) | ✅ Done |
 | `Runtime/Auth/` | Multi-provider authentication | ✅ Done |
-| `Runtime/Analytics/` | Analytics manager | To port |
+| `Runtime/Analytics/` | Provider-based analytics | ✅ Done |
 | `Runtime/Time/` | Server time sync | ✅ Done |
 | `Runtime/Push/` | Local notifications | To port |
 
@@ -97,7 +97,7 @@ IN DEVELOPMENT - Network service complete, other services pending
 - ✅ Network/IWebService + WebService (UnityWebRequest-based REST client)
 - ✅ Auth/IAuthService + AuthService (Guest, Facebook, Apple, GooglePlay)
 - ✅ Time/ITimeService + TimeService (server time sync with offset)
+- ✅ Analytics/IAnalyticsService + AnalyticsService (provider-based)
 
 ### Pending
-- Analytics
-- Push notifications
+- Push notifications (local notifications)
