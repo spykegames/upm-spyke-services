@@ -27,7 +27,7 @@ upm-spyke-services/
 
 | Folder | Purpose | Status |
 |--------|---------|--------|
-| `Runtime/Network/` | WebSocket client, REST client | To port |
+| `Runtime/Network/` | REST client (UnityWebRequest) | ✅ Done |
 | `Runtime/Auth/` | Authentication services | To port |
 | `Runtime/Analytics/` | Analytics manager | To port |
 | `Runtime/Time/` | Server time sync | To port |
@@ -48,15 +48,28 @@ upm-spyke-services/
 ### Basic Usage
 ```csharp
 using Spyke.Services.Network;
-using Spyke.Services.Auth;
 
-// Network
-[Inject] private readonly INetworkService _network;
-await _network.SendAsync(new MyRequest());
+// Network - Inject the service
+[Inject] private readonly IWebService _web;
 
-// Auth
-[Inject] private readonly IAuthService _auth;
-await _auth.LoginAsGuestAsync();
+// Simple GET request
+var response = await _web.SendAsync(new WebRequest("https://api.example.com/users").Get());
+var users = JsonUtility.FromJson<UserList>(response.Text);
+
+// POST with JSON body
+var response = await _web.SendAsync(
+    new WebRequest("users")
+        .Post()
+        .SetBody("{\"name\":\"John\"}")
+        .AddHeader("Authorization", "Bearer token")
+);
+
+// With error handling callback
+await _web.SendAsync(
+    new WebRequest("data").Get(),
+    onSuccess: response => Debug.Log(response.Text),
+    onError: error => Debug.LogError(error.Message)
+);
 ```
 
 ## Dependencies
@@ -78,4 +91,13 @@ From `client-bootstrap`:
 | `CubeBusters/Common/Analytics/` | `Runtime/Analytics/` |
 
 ## Status
-IN DEVELOPMENT - Structure ready, waiting for code port
+IN DEVELOPMENT - Network service complete, other services pending
+
+### Completed
+- ✅ Network/IWebService + WebService (UnityWebRequest-based REST client)
+
+### Pending
+- Auth (Guest, Facebook, Apple login)
+- TimeService (server time sync)
+- Analytics
+- Push notifications
