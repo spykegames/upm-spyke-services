@@ -28,7 +28,7 @@ upm-spyke-services/
 | Folder | Purpose | Status |
 |--------|---------|--------|
 | `Runtime/Network/` | REST client (UnityWebRequest) | ✅ Done |
-| `Runtime/Auth/` | Authentication services | To port |
+| `Runtime/Auth/` | Multi-provider authentication | ✅ Done |
 | `Runtime/Analytics/` | Analytics manager | To port |
 | `Runtime/Time/` | Server time sync | To port |
 | `Runtime/Push/` | Local notifications | To port |
@@ -95,9 +95,9 @@ IN DEVELOPMENT - Network service complete, other services pending
 
 ### Completed
 - ✅ Network/IWebService + WebService (UnityWebRequest-based REST client)
+- ✅ Auth/IAuthService + AuthService (Guest, Facebook, Apple, GooglePlay)
 
 ### Pending
-- Auth (Guest, Facebook, Apple login)
 - TimeService (server time sync)
 - Analytics
 - Push notifications
