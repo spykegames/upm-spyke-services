@@ -2,7 +2,8 @@
     "name": "Spyke.Services",
     "rootNamespace": "Spyke.Services",
     "references": [
-        "Spyke.Core"
+        "Spyke.Core",
+        "UniTask"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
