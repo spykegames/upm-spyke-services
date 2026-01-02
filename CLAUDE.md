@@ -30,7 +30,7 @@ upm-spyke-services/
 | `Runtime/Network/` | REST client (UnityWebRequest) | ✅ Done |
 | `Runtime/Auth/` | Multi-provider authentication | ✅ Done |
 | `Runtime/Analytics/` | Analytics manager | To port |
-| `Runtime/Time/` | Server time sync | To port |
+| `Runtime/Time/` | Server time sync | ✅ Done |
 | `Runtime/Push/` | Local notifications | To port |
 
 ## How to Use
@@ -96,8 +96,8 @@ IN DEVELOPMENT - Network service complete, other services pending
 ### Completed
 - ✅ Network/IWebService + WebService (UnityWebRequest-based REST client)
 - ✅ Auth/IAuthService + AuthService (Guest, Facebook, Apple, GooglePlay)
+- ✅ Time/ITimeService + TimeService (server time sync with offset)
 
 ### Pending
-- TimeService (server time sync)
 - Analytics
 - Push notifications
