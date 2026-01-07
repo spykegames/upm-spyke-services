@@ -13,6 +13,7 @@ upm-spyke-services/
 │   ├── Analytics/        ← Analytics tracking and events
 │   ├── Time/             ← Server time synchronization
 │   ├── Push/             ← Local notifications
+│   ├── Cache/            ← Memory and disk caching
 │   └── Spyke.Services.asmdef
 ├── Editor/
 │   └── Spyke.Services.Editor.asmdef
@@ -32,6 +33,7 @@ upm-spyke-services/
 | `Runtime/Analytics/` | Provider-based analytics | ✅ Done |
 | `Runtime/Time/` | Server time sync | ✅ Done |
 | `Runtime/Push/` | Local notifications | To port |
+| `Runtime/Cache/` | Memory and disk caching | ✅ Done |
 
 ## How to Use
 
@@ -98,6 +100,39 @@ IN DEVELOPMENT - Network service complete, other services pending
 - ✅ Auth/IAuthService + AuthService (Guest, Facebook, Apple, GooglePlay)
 - ✅ Time/ITimeService + TimeService (server time sync with offset)
 - ✅ Analytics/IAnalyticsService + AnalyticsService (provider-based)
+- ✅ Cache/IMemoryCache + MemoryCache (generic in-memory cache)
+- ✅ Cache/IDiskCache + DiskCache (persistent LRU disk cache with expiry)
 
 ### Pending
 - Push notifications (local notifications)
+
+## Cache Usage
+
+```csharp
+using Spyke.Services.Cache;
+
+// In-memory cache
+var memCache = new MemoryCache<UserData>();
+memCache.Put("user123", userData);
+var cached = memCache.Get("user123");
+
+// Disk cache (persistent)
+var diskCache = new DiskCache(
+    maxFiles: 100,
+    directory: "response_cache",
+    expiry: TimeSpan.FromDays(7)
+);
+diskCache.Initialize();
+
+// Sync operations
+diskCache.Put("key", Encoding.UTF8.GetBytes(jsonData));
+var bytes = diskCache.Get("key");
+
+// Async operations
+await diskCache.PutAsync("key", bytes);
+var data = await diskCache.GetAsync("key");
+
+// No-op implementations for testing
+var noCache = new NoMemoryCache<UserData>();
+var noDiskCache = new NoDiskCache();
+```
