@@ -15,6 +15,7 @@ upm-spyke-services/
 │   ├── Push/             ← Push notification service interface
 │   ├── Cache/            ← Memory and disk caching
 │   ├── Localization/     ← Localization service interface
+│   ├── Crashlytics/      ← Crash reporting service interface
 │   └── Spyke.Services.asmdef
 ├── Editor/
 │   └── Spyke.Services.Editor.asmdef
@@ -107,6 +108,7 @@ From `client-bootstrap`:
 - ✅ Auth/IFacebookAuthProvider (Facebook SDK interface)
 - ✅ Auth/IAppleAuthProvider (Sign In with Apple interface)
 - ✅ Localization/ILocalizationService (localization interface)
+- ✅ Crashlytics/ICrashlyticsService (crash reporting interface)
 
 ## Cache Usage
 
