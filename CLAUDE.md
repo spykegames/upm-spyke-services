@@ -12,7 +12,7 @@ upm-spyke-services/
 │   ├── Auth/             ← Guest, Facebook, Apple authentication
 │   ├── Analytics/        ← Analytics tracking and events
 │   ├── Time/             ← Server time synchronization
-│   ├── Push/             ← Local notifications
+│   ├── Push/             ← Push notification service interface
 │   ├── Cache/            ← Memory and disk caching
 │   └── Spyke.Services.asmdef
 ├── Editor/
@@ -32,7 +32,7 @@ upm-spyke-services/
 | `Runtime/Auth/` | Multi-provider authentication | ✅ Done |
 | `Runtime/Analytics/` | Provider-based analytics | ✅ Done |
 | `Runtime/Time/` | Server time sync | ✅ Done |
-| `Runtime/Push/` | Local notifications | To port |
+| `Runtime/Push/` | Push notification interface | ✅ Done |
 | `Runtime/Cache/` | Memory and disk caching | ✅ Done |
 
 ## How to Use
@@ -93,7 +93,7 @@ From `client-bootstrap`:
 | `CubeBusters/Common/Analytics/` | `Runtime/Analytics/` |
 
 ## Status
-IN DEVELOPMENT - Network service complete, other services pending
+✅ **COMPLETE** - All service interfaces implemented: Network, Auth, Analytics, Time, Cache, Push
 
 ### Completed
 - ✅ Network/IWebService + WebService (UnityWebRequest-based REST client)
@@ -102,9 +102,7 @@ IN DEVELOPMENT - Network service complete, other services pending
 - ✅ Analytics/IAnalyticsService + AnalyticsService (provider-based)
 - ✅ Cache/IMemoryCache + MemoryCache (generic in-memory cache)
 - ✅ Cache/IDiskCache + DiskCache (persistent LRU disk cache with expiry)
-
-### Pending
-- Push notifications (local notifications)
+- ✅ Push/IPushNotificationService (provider-agnostic push interface)
 
 ## Cache Usage
 
@@ -135,4 +133,41 @@ var data = await diskCache.GetAsync("key");
 // No-op implementations for testing
 var noCache = new NoMemoryCache<UserData>();
 var noDiskCache = new NoDiskCache();
+```
+
+## Push Notification Usage
+
+```csharp
+using Spyke.Services.Push;
+
+// Inject the service (implementation provided by upm-spyke-sdks)
+[Inject] private readonly IPushNotificationService _push;
+
+// Check permission status
+if (_push.Status == PushNotificationStatus.Authorized)
+{
+    Debug.Log($"Push enabled, token: {_push.PushToken}");
+}
+
+// Request permission
+var granted = await _push.RequestPermissionAsync();
+
+// Set user ID for targeting
+_push.SetUserId("user123");
+
+// Add tags for segmentation
+_push.SetTag("level", "42");
+_push.SetTag("vip", "true");
+
+// Handle notification clicks
+_push.OnNotificationClicked += data =>
+{
+    if (data.TryGetAdditionalData("OpenLocation", out var location))
+    {
+        // Navigate to location
+    }
+};
+
+// No-op implementation for testing/editor
+var noPush = new NoPushNotificationService();
 ```
