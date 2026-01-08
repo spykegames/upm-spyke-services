@@ -14,6 +14,7 @@ upm-spyke-services/
 │   ├── Time/             ← Server time synchronization
 │   ├── Push/             ← Push notification service interface
 │   ├── Cache/            ← Memory and disk caching
+│   ├── Localization/     ← Localization service interface
 │   └── Spyke.Services.asmdef
 ├── Editor/
 │   └── Spyke.Services.Editor.asmdef
@@ -105,6 +106,7 @@ From `client-bootstrap`:
 - ✅ Push/IPushNotificationService (provider-agnostic push interface)
 - ✅ Auth/IFacebookAuthProvider (Facebook SDK interface)
 - ✅ Auth/IAppleAuthProvider (Sign In with Apple interface)
+- ✅ Localization/ILocalizationService (localization interface)
 
 ## Cache Usage
 
