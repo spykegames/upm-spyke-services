@@ -16,6 +16,7 @@ upm-spyke-services/
 │   ├── Cache/            ← Memory and disk caching
 │   ├── Localization/     ← Localization service interface
 │   ├── Crashlytics/      ← Crash reporting service interface
+│   ├── RemoteConfig/     ← Remote config service interface
 │   └── Spyke.Services.asmdef
 ├── Editor/
 │   └── Spyke.Services.Editor.asmdef
@@ -109,6 +110,7 @@ From `client-bootstrap`:
 - ✅ Auth/IAppleAuthProvider (Sign In with Apple interface)
 - ✅ Localization/ILocalizationService (localization interface)
 - ✅ Crashlytics/ICrashlyticsService (crash reporting interface)
+- ✅ RemoteConfig/IRemoteConfigService (remote config interface)
 
 ## Cache Usage
 
