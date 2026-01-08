@@ -103,6 +103,7 @@ From `client-bootstrap`:
 - ✅ Cache/IMemoryCache + MemoryCache (generic in-memory cache)
 - ✅ Cache/IDiskCache + DiskCache (persistent LRU disk cache with expiry)
 - ✅ Push/IPushNotificationService (provider-agnostic push interface)
+- ✅ Auth/IFacebookAuthProvider (Facebook SDK interface)
 
 ## Cache Usage
 
