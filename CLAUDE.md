@@ -104,6 +104,7 @@ From `client-bootstrap`:
 - ✅ Cache/IDiskCache + DiskCache (persistent LRU disk cache with expiry)
 - ✅ Push/IPushNotificationService (provider-agnostic push interface)
 - ✅ Auth/IFacebookAuthProvider (Facebook SDK interface)
+- ✅ Auth/IAppleAuthProvider (Sign In with Apple interface)
 
 ## Cache Usage
 
