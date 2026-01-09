@@ -87,13 +87,34 @@ await _web.SendAsync(
 ## Source Files to Port
 
 From `client-bootstrap`:
-| Source | Destination |
-|--------|-------------|
-| `SpykeLib/.../Core/Network/` | `Runtime/Network/` |
-| `Common/Network/Auth/` | `Runtime/Auth/` |
-| `Common/Service/TimeService` | `Runtime/Time/` |
-| `CubeBusters/LocalNotifications/` | `Runtime/Push/` |
-| `CubeBusters/Common/Analytics/` | `Runtime/Analytics/` |
+| Source | Destination | Status |
+|--------|-------------|--------|
+| `SpykeLib/.../Core/Network/Web/` | `Runtime/Network/` | ✅ Redesigned (UnityWebRequest vs BestHTTP) |
+| `Common/Network/Auth/` | `Runtime/Auth/` | ✅ Redesigned with provider pattern |
+| `Common/Service/TimeService` | `Runtime/Time/` | ✅ Ported |
+| `CubeBusters/LocalNotifications/` | `Runtime/Push/` | ✅ Interface + No-op |
+| `CubeBusters/Common/Analytics/` | `Runtime/Analytics/` | ✅ Provider-based |
+
+## Architecture Decision: Redesigned vs Direct Port
+
+This package was **intentionally redesigned** with modern patterns rather than directly ported:
+
+| Change | Rationale |
+|--------|-----------|
+| UnityWebRequest instead of BestHTTP | Removes commercial dependency, uses Unity built-in |
+| UniTask async instead of callbacks | Cleaner async/await pattern |
+| Interface + No-op pattern | Enables easier testing and SDK swapping |
+| Provider-based analytics | Supports multiple analytics backends |
+
+## Files NOT in Services (Belong Elsewhere)
+
+| File | Target Package | Reason |
+|------|---------------|--------|
+| `WebSocketSharpTransport.cs` | upm-spyke-extras-websocket | Real-time transport |
+| `TcpTransport.cs` | upm-spyke-extras-websocket | Socket transport |
+| Long polling code | upm-spyke-extras-websocket | Real-time communication |
+| FlatBuffer support | Not ported | Game-specific serialization |
+| `FlatWebService.cs` | Not ported | FlatBuffer-specific networking |
 
 ## Status
 ✅ **COMPLETE** - All service interfaces implemented: Network, Auth, Analytics, Time, Cache, Push
