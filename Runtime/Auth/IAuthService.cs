@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 
 namespace Spyke.Services.Auth
@@ -41,31 +42,36 @@ namespace Spyke.Services.Auth
         /// <summary>
         /// Authenticate as guest using device ID.
         /// </summary>
-        UniTask<AuthResult> LoginAsGuestAsync();
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        UniTask<AuthResult> LoginAsGuestAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Authenticate with Facebook.
         /// </summary>
         /// <param name="accessToken">Facebook access token.</param>
-        UniTask<AuthResult> LoginWithFacebookAsync(string accessToken);
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        UniTask<AuthResult> LoginWithFacebookAsync(string accessToken, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Authenticate with Apple.
         /// </summary>
         /// <param name="identityToken">Apple identity token.</param>
         /// <param name="authorizationCode">Apple authorization code.</param>
-        UniTask<AuthResult> LoginWithAppleAsync(string identityToken, string authorizationCode = null);
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        UniTask<AuthResult> LoginWithAppleAsync(string identityToken, string authorizationCode = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Authenticate with Google Play Games.
         /// </summary>
         /// <param name="serverAuthCode">Google server auth code.</param>
-        UniTask<AuthResult> LoginWithGooglePlayAsync(string serverAuthCode);
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        UniTask<AuthResult> LoginWithGooglePlayAsync(string serverAuthCode, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Refresh the current access token.
         /// </summary>
-        UniTask<AuthResult> RefreshTokenAsync();
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        UniTask<AuthResult> RefreshTokenAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Log out and clear credentials.

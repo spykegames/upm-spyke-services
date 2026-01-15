@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -104,7 +105,7 @@ namespace Spyke.Services.Cache
             }
         }
 
-        public async UniTask<byte[]> GetAsync(string key)
+        public async UniTask<byte[]> GetAsync(string key, CancellationToken cancellationToken = default)
         {
             EnsureInitialized();
 
@@ -117,7 +118,7 @@ namespace Spyke.Services.Cache
             try
             {
                 var filePath = Path.Combine(_path, fileName);
-                return await File.ReadAllBytesAsync(filePath);
+                return await File.ReadAllBytesAsync(filePath, cancellationToken);
             }
             catch (Exception e)
             {
@@ -154,7 +155,7 @@ namespace Spyke.Services.Cache
             }
         }
 
-        public async UniTask PutAsync(string key, byte[] data)
+        public async UniTask PutAsync(string key, byte[] data, CancellationToken cancellationToken = default)
         {
             EnsureInitialized();
 
@@ -163,7 +164,7 @@ namespace Spyke.Services.Cache
 
             try
             {
-                await File.WriteAllBytesAsync(filePath, data);
+                await File.WriteAllBytesAsync(filePath, data, cancellationToken);
 
                 // Update cache list (move to front for LRU)
                 _cachedFiles.Remove(fileName);

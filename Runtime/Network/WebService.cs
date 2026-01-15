@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -30,7 +31,7 @@ namespace Spyke.Services.Network
             _defaultHeaders.Remove(name);
         }
 
-        public async UniTask<WebResponse> SendAsync(WebRequest request)
+        public async UniTask<WebResponse> SendAsync(WebRequest request, CancellationToken cancellationToken = default)
         {
             var builtRequest = request.Build();
             var url = BuildUrl(builtRequest.Url);
@@ -46,7 +47,7 @@ namespace Spyke.Services.Network
 
             try
             {
-                await unityRequest.SendWebRequest().WithCancellation(default);
+                await unityRequest.SendWebRequest().WithCancellation(cancellationToken);
             }
             catch (Exception ex)
             {
@@ -61,17 +62,17 @@ namespace Spyke.Services.Network
             return CreateResponse(unityRequest);
         }
 
-        public async UniTask<T> SendAsync<T>(WebRequest request)
+        public async UniTask<T> SendAsync<T>(WebRequest request, CancellationToken cancellationToken = default)
         {
-            var response = await SendAsync(request);
+            var response = await SendAsync(request, cancellationToken);
             return JsonUtility.FromJson<T>(response.Text);
         }
 
-        public async UniTask SendAsync(WebRequest request, Action<WebResponse> onSuccess, Action<WebError> onError)
+        public async UniTask SendAsync(WebRequest request, Action<WebResponse> onSuccess, Action<WebError> onError, CancellationToken cancellationToken = default)
         {
             try
             {
-                var response = await SendAsync(request);
+                var response = await SendAsync(request, cancellationToken);
                 onSuccess?.Invoke(response);
             }
             catch (WebServiceException ex)
@@ -89,11 +90,11 @@ namespace Spyke.Services.Network
             }
         }
 
-        public async UniTask SendAsync<T>(WebRequest request, Action<T> onSuccess, Action<WebError> onError)
+        public async UniTask SendAsync<T>(WebRequest request, Action<T> onSuccess, Action<WebError> onError, CancellationToken cancellationToken = default)
         {
             try
             {
-                var response = await SendAsync<T>(request);
+                var response = await SendAsync<T>(request, cancellationToken);
                 onSuccess?.Invoke(response);
             }
             catch (WebServiceException ex)

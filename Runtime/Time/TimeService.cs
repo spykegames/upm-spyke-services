@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Spyke.Services.Network;
 using UnityEngine;
@@ -41,7 +42,7 @@ namespace Spyke.Services.Time
             LoadOffset();
         }
 
-        public async UniTask<bool> SyncAsync()
+        public async UniTask<bool> SyncAsync(CancellationToken cancellationToken = default)
         {
             if (_webService == null)
             {
@@ -55,7 +56,7 @@ namespace Spyke.Services.Time
             {
                 var requestStart = DateTime.UtcNow;
                 var request = new WebRequest(_timeEndpoint).Get();
-                var response = await _webService.SendAsync(request);
+                var response = await _webService.SendAsync(request, cancellationToken);
 
                 if (!response.IsSuccess)
                 {

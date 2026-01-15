@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Spyke.Services.Network;
 using UnityEngine;
@@ -30,39 +31,39 @@ namespace Spyke.Services.Auth
             _authEndpoint = authEndpoint;
         }
 
-        public async UniTask<AuthResult> LoginAsGuestAsync()
+        public async UniTask<AuthResult> LoginAsGuestAsync(CancellationToken cancellationToken = default)
         {
-            return await AuthenticateAsync(AuthProvider.Guest, null);
+            return await AuthenticateAsync(AuthProvider.Guest, null, cancellationToken);
         }
 
-        public async UniTask<AuthResult> LoginWithFacebookAsync(string accessToken)
+        public async UniTask<AuthResult> LoginWithFacebookAsync(string accessToken, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrEmpty(accessToken))
             {
                 return AuthResult.Failure("Facebook access token is required");
             }
-            return await AuthenticateAsync(AuthProvider.Facebook, accessToken);
+            return await AuthenticateAsync(AuthProvider.Facebook, accessToken, cancellationToken);
         }
 
-        public async UniTask<AuthResult> LoginWithAppleAsync(string identityToken, string authorizationCode = null)
+        public async UniTask<AuthResult> LoginWithAppleAsync(string identityToken, string authorizationCode = null, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrEmpty(identityToken))
             {
                 return AuthResult.Failure("Apple identity token is required");
             }
-            return await AuthenticateAsync(AuthProvider.Apple, identityToken);
+            return await AuthenticateAsync(AuthProvider.Apple, identityToken, cancellationToken);
         }
 
-        public async UniTask<AuthResult> LoginWithGooglePlayAsync(string serverAuthCode)
+        public async UniTask<AuthResult> LoginWithGooglePlayAsync(string serverAuthCode, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrEmpty(serverAuthCode))
             {
                 return AuthResult.Failure("Google server auth code is required");
             }
-            return await AuthenticateAsync(AuthProvider.GooglePlay, serverAuthCode);
+            return await AuthenticateAsync(AuthProvider.GooglePlay, serverAuthCode, cancellationToken);
         }
 
-        public async UniTask<AuthResult> RefreshTokenAsync()
+        public async UniTask<AuthResult> RefreshTokenAsync(CancellationToken cancellationToken = default)
         {
             if (Credentials == null || string.IsNullOrEmpty(Credentials.RefreshToken))
             {
@@ -77,7 +78,7 @@ namespace Spyke.Services.Auth
                     .Post()
                     .SetBody(JsonUtility.ToJson(new RefreshRequest { refresh_token = Credentials.RefreshToken }));
 
-                var response = await _webService.SendAsync(request);
+                var response = await _webService.SendAsync(request, cancellationToken);
 
                 if (!response.IsSuccess)
                 {
@@ -158,7 +159,7 @@ namespace Spyke.Services.Auth
             PlayerPrefs.Save();
         }
 
-        private async UniTask<AuthResult> AuthenticateAsync(AuthProvider provider, string idToken)
+        private async UniTask<AuthResult> AuthenticateAsync(AuthProvider provider, string idToken, CancellationToken cancellationToken = default)
         {
             SetState(AuthState.Authenticating);
 
@@ -180,7 +181,7 @@ namespace Spyke.Services.Auth
                     .Post()
                     .SetBody(JsonUtility.ToJson(requestBody));
 
-                var response = await _webService.SendAsync(request);
+                var response = await _webService.SendAsync(request, cancellationToken);
 
                 if (!response.IsSuccess)
                 {

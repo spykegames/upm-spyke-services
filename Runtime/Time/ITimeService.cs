@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 
 namespace Spyke.Services.Time
@@ -47,8 +48,9 @@ namespace Spyke.Services.Time
         /// <summary>
         /// Synchronize time with server.
         /// </summary>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
         /// <returns>True if sync successful.</returns>
-        UniTask<bool> SyncAsync();
+        UniTask<bool> SyncAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Update offset from server response header.

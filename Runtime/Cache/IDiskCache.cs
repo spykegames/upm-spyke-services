@@ -1,3 +1,4 @@
+using System.Threading;
 using Cysharp.Threading.Tasks;
 
 namespace Spyke.Services.Cache
@@ -9,9 +10,9 @@ namespace Spyke.Services.Cache
     {
         void Initialize();
         byte[] Get(string key);
-        UniTask<byte[]> GetAsync(string key);
+        UniTask<byte[]> GetAsync(string key, CancellationToken cancellationToken = default);
         void Put(string key, byte[] data);
-        UniTask PutAsync(string key, byte[] data);
+        UniTask PutAsync(string key, byte[] data, CancellationToken cancellationToken = default);
         void Clear(string key);
         void ClearAll();
         bool Contains(string key);
