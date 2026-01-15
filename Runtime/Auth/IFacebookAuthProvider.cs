@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 
 namespace Spyke.Services.Auth
@@ -39,22 +40,26 @@ namespace Spyke.Services.Auth
         /// </summary>
         /// <param name="appId">Optional app ID (uses settings if not provided).</param>
         /// <param name="clientToken">Optional client token.</param>
-        UniTask<bool> InitializeAsync(string appId = null, string clientToken = null);
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        UniTask<bool> InitializeAsync(string appId = null, string clientToken = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Authenticate with Facebook.
         /// </summary>
-        UniTask<FacebookAuthResult> LoginAsync();
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        UniTask<FacebookAuthResult> LoginAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Authenticate with extended friend permissions.
         /// </summary>
-        UniTask<FacebookAuthResult> LoginWithFriendsPermissionAsync();
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        UniTask<FacebookAuthResult> LoginWithFriendsPermissionAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Refresh the current access token.
         /// </summary>
-        UniTask<FacebookAuthResult> RefreshTokenAsync();
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        UniTask<FacebookAuthResult> RefreshTokenAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Log out from Facebook.
